@@ -23,7 +23,7 @@ export default function PublicLayout({
             </Link>
             {/* Convenince link for you while developing */}
             <Link
-              href='/admin'
+              href='/dashboard'
               className='px-4 py-1.5 bg-gray-900 text-white rounded-full hover:bg-gray-700 transition'
             >
               Dashboard
