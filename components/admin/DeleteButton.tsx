@@ -22,7 +22,7 @@ export default function DeleteButton({ id }: { id: string }) {
     <button
       onClick={handleDelete}
       disabled={isDeleting}
-      className='text-red-600 hover:text-red-800 font-medium text-sm disabled:opacity-50'
+      className='text-gray-400 hover:text-red-600 font-bold text-sm transition-colors disabled:opacity-50'
     >
       {isDeleting ? 'Deleting...' : 'Delete'}
     </button>

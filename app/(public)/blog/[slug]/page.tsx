@@ -10,46 +10,62 @@ export default async function PostPage({
 }: {
   params: Promise<{ slug: string }>
 }) {
-  // 1. Await the dynamic params
   const { slug } = await params
-
-  // 2. Fetch the post from our "Service" layer
   const post = await getPostBySlug(slug)
 
-  // 3. If no post exists, show the built-in 404 page
   if (!post) {
     notFound()
   }
 
   return (
-    <article className='max-w-3xl mx-auto px-6 py-12'>
+    <article className='max-w-3xl mx-auto px-6 py-16 md:py-24'>
       {/* Header Section */}
-      <header className='mb-12 border-b border-gray-100 pb-8'>
-        <p className='text-blue-600 font-medium mb-4'>
+      <header className='mb-16 text-center md:text-left'>
+        <time className='text-blue-600 font-semibold tracking-wide uppercase text-sm mb-4 block'>
           {format(new Date(post.created_at), 'MMMM d, yyyy')}
-        </p>
-        <h1 className='text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 leading-tight'>
+        </time>
+        <h1 className='text-4xl md:text-6xl font-extrabold tracking-tight text-gray-900 leading-[1.1] mb-8'>
           {post.title}
         </h1>
 
-        <div className='mt-8 flex items-center justify-between'>
-          <div className='flex items-center gap-3'>
-            <div className='w-10 h-10 rounded-full bg-gray-200' />{' '}
-            {/* Author Avatar Placeholder */}
-            <span className='font-medium text-gray-700'>Jimmy Vu</span>
+        <div className='flex flex-col md:flex-row md:items-center justify-between gap-6 py-6 border-y border-gray-100'>
+          <div className='flex items-center gap-4 justify-center md:justify-start'>
+            <div className='w-12 h-12 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold text-lg shadow-sm'>
+              JV
+            </div>
+            <div className='text-left'>
+              <p className='font-bold text-gray-900'>Jimmy Vu</p>
+              <p className='text-sm text-gray-500'>Software Engineer</p>
+            </div>
           </div>
-          <LikeButton id={post.id} initialLikes={post.likes_count} />
+          <div className='flex justify-center md:justify-end'>
+            <LikeButton id={post.id} initialLikes={post.likes_count} />
+          </div>
         </div>
       </header>
 
+      {/* Featured Image - if present */}
+      {post.card_image_url && (
+        <div className='mb-16 w-full aspect-[2/1] md:aspect-[21/9] rounded-3xl overflow-hidden shadow-xl'>
+          <img 
+            src={post.card_image_url} 
+            alt={post.title}
+            className='w-full h-full object-cover'
+          />
+        </div>
+      )}
+
       {/* Markdown Content Section */}
-      <section className='min-h-100'>
+      <section className='min-h-100 prose prose-lg md:prose-xl prose-blue max-w-none prose-headings:font-bold prose-a:font-semibold prose-img:rounded-2xl'>
         <MarkdownRenderer content={post.content} />
       </section>
 
       {/* Footer / Back Link */}
-      <footer className='mt-16 pt-8 border-t border-gray-100'>
+      <footer className='mt-24 pt-8 border-t border-gray-100 flex justify-between items-center'>
         <BackButton />
+        <div className='text-gray-400 text-sm font-medium'>
+          Thanks for reading!
+        </div>
       </footer>
     </article>
   )

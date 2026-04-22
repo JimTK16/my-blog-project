@@ -4,8 +4,9 @@ import { createClient } from '../supabase/server'
 import slugify from 'slugify'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
+import { ActionResponse, Post } from '@/types'
 
-export async function getPostById(id: string) {
+export async function getPostById(id: string): Promise<Post | null> {
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('posts')
@@ -17,17 +18,20 @@ export async function getPostById(id: string) {
     console.error('Error fetching post by ID:', error.message)
     return null
   }
-  return data
+  return data as Post
 }
 
-export async function createPost(formData: FormData) {
+export async function createPost(formData: FormData): Promise<ActionResponse> {
   const supabase = await createClient()
 
   const title = formData.get('title') as string
   const content = formData.get('content') as string
   const card_image_url = formData.get('card_image_url') as string
-  // Checkbox values in HTML forms are sent as 'on' or 'true' strings
   const is_published = formData.get('is_published') === 'true'
+
+  if (!title || !content) {
+    return { success: false, error: 'Title and content are required' }
+  }
 
   const slug = slugify(title, { lower: true, strict: true })
 
@@ -35,14 +39,17 @@ export async function createPost(formData: FormData) {
     .from('posts')
     .insert([{ title, slug, content, card_image_url, is_published }])
 
-  if (error) throw new Error(error.message)
+  if (error) {
+    console.error('Error creating post:', error.message)
+    return { success: false, error: error.message }
+  }
 
   revalidatePath('/dashboard')
   revalidatePath('/')
   redirect('/dashboard')
 }
 
-export async function getAllPosts() {
+export async function getAllPosts(): Promise<Post[]> {
   const supabase = await createClient()
 
   const { data, error } = await supabase
@@ -55,10 +62,10 @@ export async function getAllPosts() {
     return []
   }
 
-  return data
+  return data as Post[]
 }
 
-export async function getPostBySlug(slug: string) {
+export async function getPostBySlug(slug: string): Promise<Post | null> {
   const supabase = await createClient()
 
   const { data, error } = await supabase
@@ -69,17 +76,17 @@ export async function getPostBySlug(slug: string) {
 
   if (error) return null
 
-  return data
+  return data as Post
 }
 
-export async function deletePost(id: string) {
+export async function deletePost(id: string): Promise<ActionResponse> {
   const supabase = await createClient()
 
   const { error } = await supabase.from('posts').delete().eq('id', id)
 
   if (error) {
     console.error('Error deleting post:', error.message)
-    return { error: error.message }
+    return { success: false, error: error.message }
   }
 
   revalidatePath('/dashboard')
@@ -87,7 +94,10 @@ export async function deletePost(id: string) {
   return { success: true }
 }
 
-export async function updatePost(id: string, formData: FormData) {
+export async function updatePost(
+  id: string,
+  formData: FormData
+): Promise<ActionResponse> {
   const supabase = await createClient()
 
   const title = formData.get('title') as string
@@ -95,8 +105,10 @@ export async function updatePost(id: string, formData: FormData) {
   const card_image_url = formData.get('card_image_url') as string
   const is_published = formData.get('is_published') === 'true'
 
-  // Notice: We removed updated_at here!
-  // The Postgres trigger handles it now.
+  if (!title || !content) {
+    return { success: false, error: 'Title and content are required' }
+  }
+
   const { error } = await supabase
     .from('posts')
     .update({
@@ -107,9 +119,11 @@ export async function updatePost(id: string, formData: FormData) {
     })
     .eq('id', id)
 
-  if (error) throw new Error(error.message)
+  if (error) {
+    console.error('Error updating post:', error.message)
+    return { success: false, error: error.message }
+  }
 
-  // Revalidation logic stays the same
   revalidatePath('/dashboard')
   revalidatePath('/')
   const slug = formData.get('slug') as string

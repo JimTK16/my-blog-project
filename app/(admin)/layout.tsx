@@ -1,16 +1,80 @@
-export default function AdminLayout({
+import { createClient } from '@/lib/supabase/server'
+import { redirect } from 'next/navigation'
+import Link from 'next/link'
+import SignOutButton from '@/components/admin/SignOutButton'
+
+export default async function AdminLayout({
   children
 }: {
   children: React.ReactNode
 }) {
-  return (
-    <div className='admin-container'>
-      {/* This is where your Sidebar or Admin Nav would go later */}
-      <nav className='p-4 bg-gray-100 border-b'>
-        <span className='font-bold'>Admin Dashboard</span>
-      </nav>
+  const supabase = await createClient()
 
-      <main>{children}</main>
+  const {
+    data: { user }
+  } = await supabase.auth.getUser()
+
+  if (!user) {
+    redirect('/login')
+  }
+
+  return (
+    <div className='min-h-screen flex bg-gray-50/50 font-sans'>
+      {/* Sleek Sidebar */}
+      <aside className='w-72 bg-white border-r border-gray-100 flex flex-col sticky top-0 h-screen'>
+        <div className='p-8'>
+          <Link href="/dashboard" className="flex items-center gap-2 group">
+            <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold group-hover:scale-110 transition-transform">
+              B
+            </div>
+            <h2 className='text-xl font-bold tracking-tight text-gray-900'>Blog Admin</h2>
+          </Link>
+          <div className='mt-4 p-3 bg-gray-50 rounded-xl border border-gray-100'>
+            <p className='text-[10px] font-bold uppercase tracking-wider text-gray-400'>Authenticated as</p>
+            <p className='text-xs font-medium text-gray-600 truncate mt-0.5'>{user.email}</p>
+          </div>
+        </div>
+
+        <nav className='flex-1 px-4 space-y-1 mt-2'>
+          <p className='px-4 text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-2'>Main Menu</p>
+          <Link
+            href='/dashboard'
+            className='flex items-center gap-3 px-4 py-3 text-sm font-semibold text-gray-600 rounded-xl hover:bg-gray-50 hover:text-blue-600 transition-all group'
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-gray-300 group-hover:bg-blue-600 transition-colors" />
+            Dashboard
+          </Link>
+          <Link
+            href='/create'
+            className='flex items-center gap-3 px-4 py-3 text-sm font-semibold text-gray-600 rounded-xl hover:bg-gray-50 hover:text-blue-600 transition-all group'
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-gray-300 group-hover:bg-blue-600 transition-colors" />
+            Create New Post
+          </Link>
+          
+          <div className="pt-6">
+            <p className='px-4 text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-2'>External</p>
+            <Link
+              href='/'
+              className='flex items-center gap-3 px-4 py-3 text-sm font-semibold text-gray-500 rounded-xl hover:bg-gray-50 hover:text-gray-900 transition-all group'
+            >
+              <span className="opacity-50">←</span>
+              View Live Site
+            </Link>
+          </div>
+        </nav>
+
+        <div className='p-6 mt-auto border-t border-gray-100'>
+          <SignOutButton />
+        </div>
+      </aside>
+
+      {/* Main Content Area */}
+      <main className='flex-1 min-w-0 h-screen overflow-y-auto'>
+        <div className="max-w-6xl mx-auto py-12 px-8">
+          {children}
+        </div>
+      </main>
     </div>
   )
 }
