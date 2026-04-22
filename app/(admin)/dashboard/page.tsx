@@ -10,12 +10,20 @@ export default async function DashboardPage() {
     <div className='p-8 max-w-6xl mx-auto'>
       <div className='flex justify-between items-center mb-8'>
         <h1 className='text-3xl font-bold'>Manage Posts</h1>
-        <Link
-          href='/create'
-          className='bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition'
-        >
-          New Post
-        </Link>
+        <div className='flex gap-3'>
+          <Link
+            href='/'
+            className='bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition'
+          >
+            Home Page
+          </Link>
+          <Link
+            href='/create'
+            className='bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition'
+          >
+            New Post
+          </Link>
+        </div>
       </div>
 
       <div className='bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm'>

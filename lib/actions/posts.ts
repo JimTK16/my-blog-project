@@ -95,22 +95,23 @@ export async function updatePost(id: string, formData: FormData) {
   const card_image_url = formData.get('card_image_url') as string
   const is_published = formData.get('is_published') === 'true'
 
+  // Notice: We removed updated_at here!
+  // The Postgres trigger handles it now.
   const { error } = await supabase
     .from('posts')
     .update({
       title,
       content,
       card_image_url,
-      is_published,
-      updated_at: new Date().toISOString()
+      is_published
     })
     .eq('id', id)
 
   if (error) throw new Error(error.message)
 
+  // Revalidation logic stays the same
   revalidatePath('/dashboard')
-  revalidatePath('/') // Revalidate home feed
-  // Revalidate the specific blog post page
+  revalidatePath('/')
   const slug = formData.get('slug') as string
   if (slug) revalidatePath(`/blog/${slug}`)
 
