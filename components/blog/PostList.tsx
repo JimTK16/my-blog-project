@@ -10,12 +10,14 @@ export async function PostList() {
       <section className='py-20 md:py-32'>
         <h1 className='text-5xl md:text-7xl font-extrabold tracking-tight text-gray-900 mb-6'>
           Writing about code, <br className='hidden md:block' />
-          <span className='text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600'>
+          <span className='text-transparent bg-clip-text bg-linear-to-r from-blue-600 to-indigo-600'>
             design, and building things.
           </span>
         </h1>
         <p className='text-lg md:text-xl text-gray-500 max-w-2xl leading-relaxed'>
-          Welcome to my digital garden. Here, I share my thoughts on software engineering, modern web development, and the journey of crafting digital products.
+          Welcome to my digital garden. Here, I share my thoughts on software
+          engineering, modern web development, and the journey of crafting
+          digital products.
         </p>
       </section>
 
