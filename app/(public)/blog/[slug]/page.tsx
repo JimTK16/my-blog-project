@@ -30,7 +30,7 @@ export default async function PostPage({
 
         <div className='flex flex-col md:flex-row md:items-center justify-between gap-6 py-6 border-y border-gray-100'>
           <div className='flex items-center gap-4 justify-center md:justify-start'>
-            <div className='w-12 h-12 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold text-lg shadow-sm'>
+            <div className='w-12 h-12 rounded-full bg-linear-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold text-lg shadow-sm'>
               JV
             </div>
             <div className='text-left'>
@@ -46,9 +46,9 @@ export default async function PostPage({
 
       {/* Featured Image - if present */}
       {post.card_image_url && (
-        <div className='mb-16 w-full aspect-[2/1] md:aspect-[21/9] rounded-3xl overflow-hidden shadow-xl'>
-          <img 
-            src={post.card_image_url} 
+        <div className='mb-16 w-full aspect-2/1 md:aspect-21/9 rounded-3xl overflow-hidden shadow-xl'>
+          <img
+            src={post.card_image_url}
             alt={post.title}
             className='w-full h-full object-cover'
           />
