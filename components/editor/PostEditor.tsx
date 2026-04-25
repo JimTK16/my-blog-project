@@ -41,115 +41,142 @@ export default function PostEditor({ post }: PostEditorProps) {
   )
 
   return (
-    <form action={formAction} className='max-w-5xl mx-auto space-y-12 pb-20'>
-      {/* Editor Header */}
-      <div className='flex flex-col gap-6'>
+    <form action={formAction} className='mx-auto max-w-5xl space-y-10 pb-20'>
+      {/* ── Editor header ─────────────────────────────────────────────── */}
+      <div className='flex flex-col gap-5'>
+        {/* Status row */}
         <div className='flex items-center justify-between'>
-          <div className='flex items-center gap-3'>
-            <div
-              className={`w-2.5 h-2.5 rounded-full ${isPublished ? 'bg-success-500 animate-pulse' : 'bg-warning-500'}`}
+          <div className='flex items-center gap-2'>
+            <span
+              aria-hidden='true'
+              className={`h-2 w-2 rounded-full ${
+                isPublished ? 'animate-pulse bg-success-500' : 'bg-warning-500'
+              }`}
             />
-            <span className='text-[10px] font-bold uppercase tracking-widest text-soil-400'>
-              Currently editing {isPublished ? 'Published Post' : 'Draft'}
+            <span className='text-[11px] font-bold uppercase tracking-widest text-text-subtle'>
+              {isPublished ? 'Published Post' : 'Draft'}
             </span>
           </div>
 
           <button
             type='button'
             onClick={() => router.push('/dashboard')}
-            className='text-xs font-bold text-soil-400 hover:text-soil-900 transition-colors uppercase tracking-widest'
+            className='text-xs font-semibold uppercase tracking-widest
+                       text-text-subtle hover:text-text transition-colors'
           >
             Cancel & Exit
           </button>
         </div>
 
+        {/* Error banner */}
         {state.error && (
-          <div className='bg-danger-50 border border-danger-200 text-danger-600 px-6 py-4 rounded-2xl text-sm font-medium'>
+          <div
+            role='alert'
+            className='rounded-lg border border-danger-200 bg-danger-50
+                       px-5 py-4 text-sm font-medium text-danger-600'
+          >
             {state.error}
           </div>
         )}
 
+        {/* Title + slug */}
         <div className='space-y-2'>
+          {/*
+           * Large editorial-style title input.
+           * Borderless + transparent — the page heading IS the input.
+           * focus:outline-none disables browser default; focus-visible ring
+           * from globals.css still activates for keyboard users.
+           */}
           <input
             name='title'
             defaultValue={post?.title}
-            placeholder='Enter a captivating title...'
-            className='text-5xl md:text-6xl font-extrabold border-none focus:ring-0 w-full bg-transparent p-0 placeholder:text-soil-300 tracking-tight leading-tight'
+            placeholder='Enter a captivating title…'
+            className='w-full bg-transparent p-0 font-heading text-4xl font-extrabold
+                       tracking-tight leading-tight text-text placeholder:text-text-subtle
+                       focus:outline-none md:text-5xl'
             required
           />
-          <div className='flex items-center gap-2 text-soil-400 font-medium text-sm'>
+
+          <div className='flex items-center gap-2 text-sm text-text-subtle'>
             <span>Slug:</span>
-            <code className='bg-soil-100 px-2 py-0.5 rounded border border-soil-200 text-xs'>
+            <code
+              className='rounded border border-border bg-surface-tinted
+                         px-2 py-0.5 font-mono text-xs'
+            >
               {post?.slug || 'will-be-generated-from-title'}
             </code>
           </div>
         </div>
+
         <input type='hidden' name='slug' value={post?.slug} />
       </div>
 
-      {/* Media & Metadata Section */}
-      <div className='grid grid-cols-1 md:grid-cols-3 gap-10 items-start'>
-        <div className='md:col-span-2 space-y-8'>
-          <div className='space-y-4'>
-            <h3 className='text-sm font-bold uppercase tracking-widest text-soil-400'>
-              Cover Image
-            </h3>
-            <ImageUploader
-              initialValue={imageUrl}
-              onUploadComplete={(url) => setImageUrl(url)}
-            />
-          </div>
+      {/* ── Media + Publish sidebar ───────────────────────────────────── */}
+      <div className='grid grid-cols-1 items-start gap-8 md:grid-cols-3'>
+        {/* Cover image — spans 2 of 3 columns */}
+        <div className='space-y-4 md:col-span-2'>
+          <label className='block text-[11px] font-bold uppercase tracking-widest text-text-subtle'>
+            Cover Image
+          </label>
+          <ImageUploader
+            initialValue={imageUrl}
+            onUploadComplete={(url) => setImageUrl(url)}
+          />
         </div>
 
-        <div className='bg-soil-100 border border-soil-200 rounded-3xl p-8 space-y-6 sticky top-8'>
-          <h3 className='text-sm font-bold uppercase tracking-widest text-soil-400 mb-2'>
+        {/* Publish settings sidebar */}
+        <div
+          className='sticky top-8 space-y-5 rounded-xl border border-border
+                     bg-surface-tinted p-6'
+        >
+          <h3 className='text-[11px] font-bold uppercase tracking-widest text-text-subtle'>
             Publish Settings
           </h3>
 
-          <div className='space-y-4'>
-            <p className='text-xs text-soil-500 leading-relaxed font-medium'>
-              Choose whether to publish your post immediately or save it as a
-              draft for later.
-            </p>
+          <p className='text-xs leading-relaxed text-text-muted'>
+            Publish immediately or save as a draft to review later.
+          </p>
 
-            <div className='flex flex-col gap-3 pt-4 border-t border-soil-200'>
-              <button
-                type='submit'
-                name='publishStatus'
-                value='true'
-                disabled={isPending}
-                onClick={() => setIsPublished(true)}
-                className='w-full bg-bloom-600 text-white px-6 py-3.5 rounded-2xl font-bold hover:bg-bloom-700 shadow-lg shadow-bloom-100 transition active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2'
-              >
-                {isPending
-                  ? 'Processing...'
-                  : post?.id
-                    ? 'Update & Publish'
-                    : 'Publish Post'}
-              </button>
+          <div className='flex flex-col gap-3 border-t border-border pt-4'>
+            {/* Publish — btn-primary (high visual weight) */}
+            <button
+              type='submit'
+              name='publishStatus'
+              value='true'
+              disabled={isPending}
+              onClick={() => setIsPublished(true)}
+              className='btn-primary w-full'
+            >
+              {isPending
+                ? 'Publishing…'
+                : post?.id
+                  ? 'Update & Publish'
+                  : 'Publish Post'}
+            </button>
 
-              <button
-                type='submit'
-                name='publishStatus'
-                value='false'
-                disabled={isPending}
-                onClick={() => setIsPublished(false)}
-                className='w-full bg-white border border-soil-200 text-soil-700 px-6 py-3.5 rounded-2xl font-bold hover:bg-soil-100 transition active:scale-95 disabled:opacity-50'
-              >
-                {isPending ? 'Saving...' : 'Save as Draft'}
-              </button>
-            </div>
+            {/* Save draft — btn-outline (lower visual weight) */}
+            <button
+              type='submit'
+              name='publishStatus'
+              value='false'
+              disabled={isPending}
+              onClick={() => setIsPublished(false)}
+              className='btn-outline w-full'
+            >
+              {isPending ? 'Saving…' : 'Save as Draft'}
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Editor Content Area */}
-      <div className='space-y-4'>
-        <h3 className='text-sm font-bold uppercase tracking-widest text-soil-400'>
+      {/* ── Markdown editor ───────────────────────────────────────────── */}
+      <div className='space-y-3'>
+        <label className='block text-[11px] font-bold uppercase tracking-widest text-text-subtle'>
           Article Content
-        </h3>
+        </label>
+
         <div
-          className='border border-soil-200 rounded-3xl overflow-hidden shadow-sm bg-white'
+          className='overflow-hidden rounded-xl border border-border bg-surface shadow-card'
           data-color-mode='light'
         >
           <MDEditor

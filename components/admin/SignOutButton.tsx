@@ -6,11 +6,10 @@ export default function SignOutButton() {
   return (
     <button
       onClick={() => logout()}
-      className='w-full text-left px-4 py-3 text-sm font-bold text-danger-500 hover:bg-danger-50 rounded-xl transition-colors flex items-center gap-3 group'
+      className='flex min-h-[44px] w-full items-center gap-2.5 rounded-lg px-4 py-3
+                 text-sm font-medium text-danger-600 hover:bg-danger-50 transition-colors'
     >
-      <span className='opacity-50 group-hover:opacity-100 transition-opacity'>
-        ⏻
-      </span>
+      <span aria-hidden='true'>⏻</span>
       Sign Out
     </button>
   )

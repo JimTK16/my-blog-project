@@ -2,113 +2,424 @@
 
 @plugin "@tailwindcss/typography";
 
+/* =============================================
+   GOOGLE FONTS — loaded via next/font/google
+   in app/layout.tsx and injected as CSS vars:
+     --font-bricolage-grotesque  (heading)
+     --font-lora                 (body)
+     --font-caveat               (handwritten)
+   ============================================= */
+
 @theme {
-  --font-heading: var(--font-bricolage), sans-serif;
-  --font-body: var(--font-inter), sans-serif;
+  /* ─── Font Families ─────────────────────────
+     Wire up the CSS vars injected by next/font  */
+  --font-heading: var(--font-lora), Georgia, serif;
+  --font-body: var(--font-geist-sans), system-ui, sans-serif;
+  --font-handwritten: var(--font-caveat), cursive;
 
-  /* =============================================
-     BLOOM — Primary Accent (Violet-Indigo)
-     Replaces default Tailwind blue across the app
-     ============================================= */
-  --color-bloom-50: #f5f0ff;
-  --color-bloom-100: #ede4ff;
-  --color-bloom-200: #dcc9fc;
-  --color-bloom-300: #c4b5fd;
-  --color-bloom-400: #a78bfa;
-  --color-bloom-500: #8b5cf6;
-  --color-bloom-600: #7c3aed;
-  --color-bloom-700: #6d28d9;
-  --color-bloom-800: #5b21b6;
-  --color-bloom-900: #4c1d95;
+  /* ─── Fluid Type Scale ───────────────────────
+     Use as: text-fluid-sm, text-fluid-base …
+     clamp(min, preferred, max) for smooth scaling
+     between mobile and wide-screen viewports.    */
+  --text-fluid-sm: clamp(0.8125rem, 0.78rem + 0.18vw, 0.9375rem);
+  --text-fluid-base: clamp(1rem, 0.94rem + 0.28vw, 1.125rem);
+  --text-fluid-lg: clamp(1.125rem, 1.02rem + 0.42vw, 1.375rem);
+  --text-fluid-xl: clamp(1.25rem, 1.1rem + 0.6vw, 1.75rem);
+  --text-fluid-2xl: clamp(1.5rem, 1.25rem + 1vw, 2.25rem);
+  --text-fluid-3xl: clamp(1.875rem, 1.45rem + 1.5vw, 3rem);
+  --text-fluid-4xl: clamp(2.25rem, 1.65rem + 2vw, 3.75rem);
+  --text-fluid-5xl: clamp(3rem, 2.2rem + 2.6vw, 4.5rem);
 
-  /* =============================================
-     SOIL — Warm Organic Neutrals
-     Replaces Tailwind's cold gray scale.
-     Warmer undertones = cosier, more personal feel
-     ============================================= */
-  --color-soil-50: #fafaf9;
-  --color-soil-100: #f5f5f4;
-  --color-soil-200: #e7e5e4;
-  --color-soil-300: #d6d3d1;
-  --color-soil-400: #a8a29e;
-  --color-soil-500: #78716c;
-  --color-soil-600: #57534e;
-  --color-soil-700: #44403c;
-  --color-soil-800: #292524;
-  --color-soil-900: #1c1917;
+  /* ─── Spacing scale (base 4 px) ─────────────
+     Tailwind v4 resolves p-*, m-*, gap-* etc.
+     directly from --spacing-*                  */
+  --spacing-px: 1px;
+  --spacing-0: 0px;
+  --spacing-0.5: 2px;
+  --spacing-1: 4px;
+  --spacing-1.5: 6px;
+  --spacing-2: 8px;
+  --spacing-2.5: 10px;
+  --spacing-3: 12px;
+  --spacing-3.5: 14px;
+  --spacing-4: 16px;
+  --spacing-5: 20px;
+  --spacing-6: 24px;
+  --spacing-7: 28px;
+  --spacing-8: 32px;
+  --spacing-9: 36px;
+  --spacing-10: 40px;
+  --spacing-11: 44px;
+  --spacing-12: 48px;
+  --spacing-14: 56px;
+  --spacing-16: 64px;
+  --spacing-20: 80px;
+  --spacing-24: 96px;
+  --spacing-28: 112px;
+  --spacing-32: 128px;
+  --spacing-36: 144px;
+  --spacing-40: 160px;
+  --spacing-44: 176px;
+  --spacing-48: 192px;
+  --spacing-52: 208px;
+  --spacing-56: 224px;
+  --spacing-60: 240px;
+  --spacing-64: 256px;
+  --spacing-72: 288px;
+  --spacing-80: 320px;
+  --spacing-96: 384px;
 
-  /* =============================================
-     AURORA — Gradient palette
-     Multi-stop gradients inspired by Josh Comeau
-     ============================================= */
-  --color-aurora-start: #8b5cf6; /* bloom-500 */
-  --color-aurora-mid: #d946ef; /* fuchsia-500 */
-  --color-aurora-end: #22d3ee; /* cyan-400 */
+  /* ─── Border Radius ─────────────────────────*/
+  --radius-sm: 4px;
+  --radius-md: 10px;
+  --radius-lg: 18px;
+  --radius-xl: 28px;
+  --radius-full: 9999px;
 
-  /* =============================================
-     SEMANTIC COLORS — Normalised & consistent
-     One pattern per semantic role, everywhere
-     ============================================= */
+  /* ─── Box Shadows ───────────────────────────*/
+  --shadow-card:
+    0 2px 12px 0 rgba(80, 100, 60, 0.08), 0 1px 3px 0 rgba(80, 100, 60, 0.06);
+  --shadow-elevated:
+    0 8px 32px -4px rgba(80, 100, 60, 0.14),
+    0 2px 8px -2px rgba(80, 100, 60, 0.08);
+  --shadow-inset: inset 0 1px 3px 0 rgba(80, 100, 60, 0.1);
 
-  /* Success */
-  --color-success-50: #ecfdf5;
-  --color-success-100: #d1fae5;
-  --color-success-200: #a7f3d0;
-  --color-success-500: #10b981;
-  --color-success-600: #059669;
-  --color-success-700: #047857;
+  /* ─── Soft Botanical — Light palette ────────
+     Primary:    Sage / Fern green
+     Accent:     Warm terracotta / clay
+     Background: Warm linen / parchment
+     Surface:    Creamy white cards
+     Text:       Deep warm charcoal
+  ───────────────────────────────────────────── */
 
-  /* Warning */
-  --color-warning-50: #fffbeb;
-  --color-warning-100: #fef3c7;
-  --color-warning-200: #fde68a;
-  --color-warning-500: #f59e0b;
-  --color-warning-600: #d97706;
+  /* Primary — Sage green scale */
+  --color-primary-50: #f2f7f0;
+  --color-primary-100: #e2edde;
+  --color-primary-200: #c6dbbf;
+  --color-primary-300: #9ec295;
+  --color-primary-400: #72a366;
+  --color-primary-500: #4f8643;
+  --color-primary-600: #3c6b32;
+  --color-primary-700: #305529;
+  --color-primary-800: #284522;
+  --color-primary-900: #22391e;
 
-  /* Error / Danger */
-  --color-danger-50: #fff1f2;
-  --color-danger-100: #ffe4e6;
-  --color-danger-200: #fecdd3;
-  --color-danger-500: #f43f5e;
-  --color-danger-600: #e11d48;
-  --color-danger-700: #be123c;
+  /* Accent — Terracotta / clay */
+  --color-accent-50: #fdf5f0;
+  --color-accent-100: #fbe8dc;
+  --color-accent-200: #f6cfba;
+  --color-accent-300: #f0ae90;
+  --color-accent-400: #e88562;
+  --color-accent-500: #d96340;
+  --color-accent-600: #c04e2d;
+  --color-accent-700: #9f3e24;
+  --color-accent-800: #823423;
+  --color-accent-900: #6b2e21;
 
-  /* Info */
-  --color-info-50: #f0f9ff;
-  --color-info-100: #e0f2fe;
-  --color-info-500: #0ea5e9;
-  --color-info-600: #0284c7;
+  /* Neutral — Warm linen / parchment scale */
+  --color-linen-50: #fdfcf8;
+  --color-linen-100: #f8f5ee;
+  --color-linen-200: #efe9db;
+  --color-linen-300: #e2d8c6;
+  --color-linen-400: #c9bba6;
+  --color-linen-500: #a89880;
+  --color-linen-600: #8c7c65;
+  --color-linen-700: #72644f;
+  --color-linen-800: #5c5041;
+  --color-linen-900: #3e372e;
 
-  /* Surface semantic tokens */
-  --color-surface-primary: #fafaf9;
-  --color-surface-raised: #ffffff;
-  --color-surface-glass: rgba(250, 250, 249, 0.72);
+  /* Semantic surface tokens */
+  --color-background: #fdfcf8; /* warm linen page bg */
+  --color-surface: #ffffff; /* elevated card bg */
+  --color-surface-tinted: #f5f2ea; /* subtle tinted well */
+  --color-surface-glass: rgba(253, 252, 248, 0.8);
+
+  /* Semantic text tokens */
+  --color-text: #3e372e; /* linen-900 warm charcoal */
+  --color-text-muted: #8c7c65; /* linen-600 */
+  --color-text-subtle: #a89880; /* linen-500 */
+  --color-text-inverse: #fdfcf8; /* on dark bg */
+  --color-text-primary: #3c6b32; /* primary-600 */
+
+  /* Semantic border tokens */
+  --color-border: #efe9db; /* linen-200 */
+  --color-border-strong: #e2d8c6; /* linen-300 */
+
+  /* Semantic states */
+  --color-success-50: #f2f7f0;
+  --color-success-200: #c6dbbf;
+  --color-success-500: #4f8643;
+  --color-success-600: #3c6b32;
+  --color-success-700: #305529;
+
+  --color-warning-50: #fdfbf0;
+  --color-warning-200: #f6e99a;
+  --color-warning-500: #d4a017;
+  --color-warning-600: #b8860b;
+
+  --color-danger-50: #fdf5f0;
+  --color-danger-200: #f6cfba;
+  --color-danger-500: #d96340;
+  --color-danger-600: #c04e2d;
+  --color-danger-700: #9f3e24;
+
+  --color-info-50: #f0f7f4;
+  --color-info-200: #b8dfd0;
+  --color-info-500: #2d9a76;
+  --color-info-600: #217a5c;
+}
+
+/* =============================================
+   DARK THEME TOKENS
+   Applied via [data-theme="dark"] on <html>
+   AND when OS prefers dark colour scheme.
+   ============================================= */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --color-background: #1a1c16;
+    --color-surface: #242820;
+    --color-surface-tinted: #1e2019;
+    --color-surface-glass: rgba(26, 28, 22, 0.82);
+
+    --color-text: #e8e3d8;
+    --color-text-muted: #9e9484;
+    --color-text-subtle: #7a7065;
+    --color-text-inverse: #1a1c16;
+    --color-text-primary: #9ec295;
+
+    --color-border: #2e3228;
+    --color-border-strong: #3a3f32;
+
+    /* Primary tones — lighter in dark */
+    --color-primary-50: #1e2a1b;
+    --color-primary-100: #28381f;
+    --color-primary-200: #3a5030;
+    --color-primary-300: #4f6e42;
+    --color-primary-400: #6a924a; /* main dark interaction colour */
+    --color-primary-500: #85b460;
+    --color-primary-600: #9ec295;
+
+    /* Accent tones — lighter in dark */
+    --color-accent-400: #e88562;
+    --color-accent-500: #d96340;
+
+    /* Linen scale — remapped for dark */
+    --color-linen-50: #1a1c16;
+    --color-linen-100: #242820;
+    --color-linen-200: #2e3228;
+    --color-linen-300: #3a3f32;
+    --color-linen-400: #56614a;
+    --color-linen-500: #7a7065;
+    --color-linen-600: #9e9484;
+    --color-linen-700: #bdb4a6;
+    --color-linen-800: #d4cec3;
+    --color-linen-900: #e8e3d8;
+  }
+}
+
+[data-theme='dark'] {
+  --color-background: #1a1c16;
+  --color-surface: #242820;
+  --color-surface-tinted: #1e2019;
+  --color-surface-glass: rgba(26, 28, 22, 0.82);
+
+  --color-text: #e8e3d8;
+  --color-text-muted: #9e9484;
+  --color-text-subtle: #7a7065;
+  --color-text-inverse: #1a1c16;
+  --color-text-primary: #9ec295;
+
+  --color-border: #2e3228;
+  --color-border-strong: #3a3f32;
+
+  --color-primary-50: #1e2a1b;
+  --color-primary-100: #28381f;
+  --color-primary-200: #3a5030;
+  --color-primary-300: #4f6e42;
+  --color-primary-400: #6a924a;
+  --color-primary-500: #85b460;
+  --color-primary-600: #9ec295;
+
+  --color-accent-400: #e88562;
+  --color-accent-500: #d96340;
+
+  --color-linen-50: #1a1c16;
+  --color-linen-100: #242820;
+  --color-linen-200: #2e3228;
+  --color-linen-300: #3a3f32;
+  --color-linen-400: #56614a;
+  --color-linen-500: #7a7065;
+  --color-linen-600: #9e9484;
+  --color-linen-700: #bdb4a6;
+  --color-linen-800: #d4cec3;
+  --color-linen-900: #e8e3d8;
 }
 
 /* =============================================
    GLOBAL BASE STYLES
    ============================================= */
 html {
-  background-color: var(--color-soil-50);
-  color: var(--color-soil-900);
+  background-color: var(--color-background);
+  color: var(--color-text);
 }
 
-/* Smooth focus ring — bloom accent */
+body {
+  background-color: var(--color-background);
+}
+
+/* ─── Smooth focus ring — primary sage accent ─ */
 *:focus-visible {
-  outline: 2px solid var(--color-bloom-500);
-  outline-offset: 2px;
-  border-radius: 4px;
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* ─── Smooth transitions on all interactive elements ─
+   duration-200 + ease-in-out on color, bg, border, shadow.
+   This replaces ad-hoc transition-colors scattered in markup. */
+a,
+button,
+input,
+select,
+textarea,
+[role='button'] {
+  transition-property:
+    color, background-color, border-color, box-shadow, opacity,
+    text-decoration-color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+}
+
+/* ─── Global paragraph rhythm ─────────────────── */
+p {
+  line-height: 1.75; /* leading-relaxed equivalent */
+  margin-bottom: 1.25rem;
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+/* ─── Heading vertical rhythm ──────────────────── */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  color: var(--color-text);
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+h1:first-child,
+h2:first-child,
+h3:first-child {
+  margin-top: 0;
+}
+
+h1 {
+  font-size: var(--text-fluid-4xl);
+  font-weight: 800;
+}
+h2 {
+  font-size: var(--text-fluid-3xl);
+}
+h3 {
+  font-size: var(--text-fluid-2xl);
+}
+h4 {
+  font-size: var(--text-fluid-xl);
+}
+h5 {
+  font-size: var(--text-fluid-lg);
+}
+h6 {
+  font-size: var(--text-fluid-base);
+}
+
+/* ─── Anchor defaults ──────────────────────────── */
+a {
+  color: var(--color-text-primary);
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  color: var(--color-primary-500);
+  text-decoration: underline;
+}
+
+/* Navigation / button-styled links should opt out of underline */
+nav a,
+a[class] {
+  text-decoration: none;
+}
+
+/* ─── Horizontal rule ──────────────────────────── */
+hr {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: 2.5rem 0;
+}
+
+/* ─── Inline code (outside prose) ─────────────── */
+:not(pre) > code {
+  font-size: 0.875em;
+  font-weight: 500;
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-700);
+}
+
+/* ─── Blockquote (outside prose) ──────────────── */
+blockquote {
+  position: relative;
+  margin: 2rem 0;
+  padding: 1rem 1.5rem 1rem 1.75rem;
+  border-left: 3px solid var(--color-accent-400);
+  background-color: var(--color-surface-tinted);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  font-family: var(--font-handwritten);
+  font-size: 1.2em;
+  font-style: italic;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+blockquote cite,
+blockquote footer {
+  display: block;
+  margin-top: 0.75rem;
+  font-size: 0.8em;
+  font-style: normal;
+  font-family: var(--font-body);
+  color: var(--color-text-subtle);
 }
 
 /* =============================================
-   UTILITY — Aurora gradient text
+   SUBTLE BACKGROUND PATTERN
+   A low-opacity linen grain SVG pattern.
+   Applied globally via `bg-pattern` on <body>.
    ============================================= */
-@utility text-aurora {
+@utility bg-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
+/* =============================================
+   UTILITY — botanical gradient text
+   ============================================= */
+@utility text-botanical {
   background: linear-gradient(
     135deg,
-    var(--color-aurora-start) 0%,
-    var(--color-aurora-mid) 50%,
-    var(--color-aurora-end) 100%
+    var(--color-primary-600) 0%,
+    var(--color-primary-400) 50%,
+    var(--color-accent-400) 100%
   );
   -webkit-background-clip: text;
   background-clip: text;
@@ -116,60 +427,82 @@ html {
 }
 
 /* =============================================
-   UTILITY — Aurora gradient background
+   UTILITY — botanical gradient background
    ============================================= */
-@utility bg-aurora {
+@utility bg-botanical {
   background: linear-gradient(
     135deg,
-    var(--color-aurora-start) 0%,
-    var(--color-aurora-mid) 50%,
-    var(--color-aurora-end) 100%
+    var(--color-primary-600) 0%,
+    var(--color-primary-400) 50%,
+    var(--color-accent-400) 100%
   );
 }
 
 /* =============================================
-   UTILITY — Subtle glow for cards on hover
+   UTILITY — card glow on hover
    ============================================= */
-@utility glow-bloom {
+@utility glow-primary {
   box-shadow:
-    0 0 0 1px var(--color-bloom-200),
-    0 4px 24px -4px rgba(139, 92, 246, 0.12);
+    0 0 0 1px var(--color-primary-200),
+    0 4px 24px -4px rgba(79, 134, 67, 0.14);
+}
+
+/* =============================================
+   UTILITY — glass surface
+   ============================================= */
+@utility surface-glass {
+  background-color: var(--color-surface-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 /* =============================================
    PROSE / TYPOGRAPHY OVERRIDES
    ============================================= */
 .prose {
-  --tw-prose-body: var(--color-soil-700);
-  --tw-prose-headings: var(--color-soil-900);
-  --tw-prose-links: var(--color-bloom-600);
-  --tw-prose-bold: var(--color-soil-900);
-  --tw-prose-counters: var(--color-soil-400);
-  --tw-prose-bullets: var(--color-soil-300);
-  --tw-prose-hr: var(--color-soil-200);
-  --tw-prose-quotes: var(--color-soil-900);
-  --tw-prose-quote-borders: var(--color-bloom-300);
-  --tw-prose-captions: var(--color-soil-500);
-  --tw-prose-code: var(--color-bloom-700);
-  --tw-prose-pre-code: var(--color-soil-200);
-  --tw-prose-pre-bg: var(--color-soil-800);
-  --tw-prose-th-borders: var(--color-soil-300);
-  --tw-prose-td-borders: var(--color-soil-200);
+  --tw-prose-body: var(--color-text);
+  --tw-prose-headings: var(--color-text);
+  --tw-prose-links: var(--color-primary-600);
+  --tw-prose-bold: var(--color-text);
+  --tw-prose-counters: var(--color-text-muted);
+  --tw-prose-bullets: var(--color-linen-400);
+  --tw-prose-hr: var(--color-border);
+  --tw-prose-quotes: var(--color-text);
+  --tw-prose-quote-borders: var(--color-accent-400);
+  --tw-prose-captions: var(--color-text-subtle);
+  --tw-prose-code: var(--color-primary-700);
+  --tw-prose-pre-code: var(--color-linen-200);
+  --tw-prose-pre-bg: var(--color-linen-900);
+  --tw-prose-th-borders: var(--color-border-strong);
+  --tw-prose-td-borders: var(--color-border);
 }
 
 /* Inline code in prose */
 .prose code:not(pre code) {
-  background: var(--color-bloom-50);
-  color: var(--color-bloom-700);
+  background: var(--color-primary-50);
+  color: var(--color-primary-700);
   padding: 0.125rem 0.375rem;
-  border-radius: 0.375rem;
+  border-radius: var(--radius-sm);
   font-size: 0.875em;
   font-weight: 500;
 }
 
-/* Blockquotes in prose */
+/* Blockquotes — terracotta border, italic feel */
 .prose blockquote {
-  border-left-color: var(--color-bloom-300);
+  border-left-color: var(--color-accent-400);
+  font-family: var(--font-handwritten);
+  font-size: 1.125em;
+  color: var(--color-text-muted);
+}
+
+/* =============================================
+   CUSTOM CURSOR SUPPORT
+   .cursor-none is added to <body> by CustomCursor
+   component on pointer (non-touch) devices.
+   ============================================= */
+.cursor-none,
+.cursor-none * {
+  cursor: none !important;
 }
 
 /* =============================================
@@ -181,22 +514,196 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-soil-100);
+  background: var(--color-surface-tinted);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-soil-300);
-  border-radius: 3px;
+  background: var(--color-linen-300);
+  border-radius: var(--radius-full);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-soil-400);
+  background: var(--color-linen-400);
 }
 
 /* =============================================
    SELECTION
    ============================================= */
 ::selection {
-  background: var(--color-bloom-100);
-  color: var(--color-bloom-900);
+  background: var(--color-primary-100);
+  color: var(--color-primary-900);
+}
+
+/* =============================================
+   ANIMATION KEYFRAMES
+   All keyframes respect prefers-reduced-motion
+   via the global media query at the bottom.
+   ============================================= */
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ── Animation utility classes ─────────────── */
+
+@utility animate-fade-in-up {
+  animation: fade-in-up 0.5s ease-out both;
+}
+
+@utility animate-fade-in {
+  animation: fade-in 0.4s ease-out both;
+}
+
+/* ── Touch target — WCAG 2.5.5 minimum 44×44 px ─
+   Apply as `touch-target` on any interactive
+   element that would otherwise be too small.       */
+
+@utility touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* ── Animation delay utilities ─────────────── */
+/* Named anim-delay-* to avoid collision with
+   Tailwind's built-in delay-* (transition-delay) */
+
+@utility anim-delay-0 {
+  animation-delay: 0ms;
+}
+
+@utility anim-delay-100 {
+  animation-delay: 100ms;
+}
+
+@utility anim-delay-200 {
+  animation-delay: 200ms;
+}
+
+@utility anim-delay-300 {
+  animation-delay: 300ms;
+}
+
+@utility anim-delay-400 {
+  animation-delay: 400ms;
+}
+
+@utility anim-delay-500 {
+  animation-delay: 500ms;
+}
+
+@utility anim-delay-600 {
+  animation-delay: 600ms;
+}
+
+/* ── transition-width utility ───────────────── */
+/* Used by the reading progress bar so the width
+   transition is silky without a full
+   transition-all that would cause repaints. */
+
+@utility transition-width {
+  transition-property: width;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Reduced-motion safety net ──────────────── */
+/* Belt-and-suspenders alongside Tailwind's
+   motion-reduce: variant in markup. */
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in-up,
+  .animate-fade-in {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* =============================================
+   COMPONENT CLASSES — Button variants
+   Defined here (not as @utility) so that
+   pseudo-classes (:hover, :disabled, :active)
+   work without Tailwind modifier prefixes.
+   Combine with w-full, text-sm etc. freely.
+   ============================================= */
+
+/* Primary — filled sage green */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background-color: var(--color-primary-600);
+  color: var(--color-text-inverse);
+  font-weight: 700;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  border-radius: var(--radius-md);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition-property: background-color, box-shadow, transform;
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--color-primary-700);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Outline — transparent with sage border */
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background-color: transparent;
+  color: var(--color-text);
+  font-weight: 700;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--color-border-strong);
+  cursor: pointer;
+  transition-property: background-color, border-color, color;
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+}
+
+.btn-outline:hover:not(:disabled) {
+  background-color: var(--color-surface-tinted);
+  border-color: var(--color-primary-400);
+  color: var(--color-primary-600);
+}
+
+.btn-outline:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

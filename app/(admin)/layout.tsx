@@ -2,7 +2,9 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import SignOutButton from '@/components/admin/SignOutButton'
+import { AdminNavLink } from '@/components/admin/AdminNavLink'
 
+/* Server Component — auth gate + sidebar shell */
 export default async function AdminLayout({
   children
 }: {
@@ -14,74 +16,84 @@ export default async function AdminLayout({
     data: { user }
   } = await supabase.auth.getUser()
 
-  if (!user) {
-    redirect('/login')
-  }
+  if (!user) redirect('/login')
 
   return (
-    <div className='min-h-screen flex bg-soil-100 font-sans'>
-      {/* Sleek Sidebar */}
-      <aside className='w-72 bg-white border-r border-soil-200 flex flex-col sticky top-0 h-screen'>
-        <div className='p-8'>
-          <Link href='/dashboard' className='flex items-center gap-2 group'>
-            <div className='w-8 h-8 rounded-lg bg-bloom-600 flex items-center justify-center text-white font-bold group-hover:scale-110 transition-transform'>
+    <div className='min-h-screen flex bg-background font-body'>
+      {/* ── Sidebar ─────────────────────────────────────────────────────── */}
+      <aside
+        className='w-64 shrink-0 bg-surface border-r border-border
+                   flex flex-col sticky top-0 h-screen'
+        aria-label='Admin navigation'
+      >
+        {/* Brand + user info */}
+        <div className='p-5 border-b border-border'>
+          <Link href='/dashboard' className='flex items-center gap-2.5 group'>
+            <div
+              className='flex h-8 w-8 items-center justify-center rounded-lg
+                         bg-primary-600 text-sm font-bold text-text-inverse
+                         group-hover:scale-105 transition-transform'
+            >
               B
             </div>
-            <h2 className='text-xl font-bold tracking-tight text-soil-900'>
+            <span className='font-heading text-base font-bold tracking-tight text-text'>
               Blog Admin
-            </h2>
+            </span>
           </Link>
-          <div className='mt-4 p-3 bg-soil-100 rounded-xl border border-soil-200'>
-            <p className='text-[10px] font-bold uppercase tracking-wider text-soil-400'>
-              Authenticated as
+
+          {/* Authenticated user pill */}
+          <div className='mt-4 rounded-lg border border-border bg-surface-tinted p-3'>
+            <p className='text-[10px] font-bold uppercase tracking-wider text-text-subtle'>
+              Signed in as
             </p>
-            <p className='text-xs font-medium text-soil-600 truncate mt-0.5'>
+            <p className='mt-0.5 truncate text-xs font-medium text-text-muted'>
               {user.email}
             </p>
           </div>
         </div>
 
-        <nav className='flex-1 px-4 space-y-1 mt-2'>
-          <p className='px-4 text-[10px] font-bold uppercase tracking-wider text-soil-400 mb-2'>
+        {/* Navigation */}
+        <nav className='flex-1 space-y-1 p-3' aria-label='Admin menu'>
+          <p className='mb-2 mt-2 px-4 text-[10px] font-bold uppercase tracking-wider text-text-subtle'>
             Main Menu
           </p>
-          <Link
-            href='/dashboard'
-            className='flex items-center gap-3 px-4 py-3 text-sm font-semibold text-soil-600 rounded-xl hover:bg-soil-100 hover:text-bloom-600 transition-all group'
-          >
-            <span className='w-1.5 h-1.5 rounded-full bg-soil-300 group-hover:bg-bloom-600 transition-colors' />
-            Dashboard
-          </Link>
-          <Link
-            href='/create'
-            className='flex items-center gap-3 px-4 py-3 text-sm font-semibold text-soil-600 rounded-xl hover:bg-soil-100 hover:text-bloom-600 transition-all group'
-          >
-            <span className='w-1.5 h-1.5 rounded-full bg-soil-300 group-hover:bg-bloom-600 transition-colors' />
-            Create New Post
-          </Link>
 
-          <div className='pt-6'>
-            <p className='px-4 text-[10px] font-bold uppercase tracking-wider text-soil-400 mb-2'>
+          {/* AdminNavLink is a Client Component — handles aria-current + active style */}
+          <AdminNavLink href='/dashboard' icon='◉'>
+            Dashboard
+          </AdminNavLink>
+          <AdminNavLink href='/create' icon='✦'>
+            Create New Post
+          </AdminNavLink>
+
+          <div className='mt-4 border-t border-border pt-4'>
+            <p className='mb-2 px-4 text-[10px] font-bold uppercase tracking-wider text-text-subtle'>
               External
             </p>
+            {/* "Back to site" — subtle, unobtrusive */}
             <Link
               href='/'
-              className='flex items-center gap-3 px-4 py-3 text-sm font-semibold text-soil-500 rounded-xl hover:bg-soil-100 hover:text-soil-900 transition-all group'
+              className='flex items-center gap-2.5 rounded-lg px-4 py-2.5
+                         text-sm font-medium text-text-subtle hover:bg-surface-tinted
+                         hover:text-text transition-colors'
             >
-              <span className='opacity-50'>←</span>
-              View Live Site
+              <span aria-hidden='true' className='w-4 text-center'>
+                ←
+              </span>
+              Back to site
             </Link>
           </div>
         </nav>
 
-        <div className='p-6 mt-auto border-t border-soil-200'>
+        {/* Sign out */}
+        <div className='border-t border-border p-3'>
           <SignOutButton />
         </div>
       </aside>
 
-      {/* Main Content Area */}
-      <main className='flex-1 min-w-0 h-screen overflow-y-auto'>
-        <div className='max-w-6xl mx-auto py-12 px-8'>{children}</div>
+      {/* ── Main content ─────────────────────────────────────────────────── */}
+      <main className='flex-1 min-w-0 h-screen overflow-y-auto bg-background'>
+        <div className='mx-auto max-w-5xl px-6 py-10 lg:px-10'>{children}</div>
       </main>
     </div>
   )

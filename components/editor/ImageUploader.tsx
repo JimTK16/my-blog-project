@@ -48,24 +48,30 @@ export default function ImageUploader({
 
   return (
     <div className='space-y-4'>
-      <label className='block text-sm font-medium text-soil-700'>
-        Card Image
-      </label>
+      <label className='block text-sm font-medium text-text'>Card Image</label>
+
       {preview && (
         <img
           src={preview}
           alt='Preview'
-          className='w-40 h-24 object-cover rounded border'
+          className='h-24 w-40 rounded-lg border border-border object-cover shadow-card'
         />
       )}
+
       <input
         type='file'
         accept='image/*'
         onChange={handleUpload}
         disabled={uploading}
-        className='block w-full text-sm text-soil-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-bloom-50 file:text-bloom-700 hover:file:bg-bloom-100'
+        className='block w-full text-sm text-text-muted
+                   file:mr-4 file:rounded-md file:border-0
+                   file:bg-primary-50 file:px-4 file:py-2
+                   file:text-sm file:font-semibold file:text-primary-700
+                   hover:file:bg-primary-100
+                   disabled:opacity-50'
       />
-      {uploading && <p className='text-xs text-bloom-500'>Uploading...</p>}
+
+      {uploading && <p className='text-xs text-primary-500'>Uploading…</p>}
     </div>
   )
 }

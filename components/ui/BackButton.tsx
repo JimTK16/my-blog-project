@@ -8,9 +8,12 @@ export default function BackButton() {
   return (
     <button
       onClick={() => router.back()}
-      className='text-bloom-600 hover:underline font-medium cursor-pointer'
+      className='flex min-h-[44px] items-center gap-1.5 text-sm font-medium
+                 text-primary-600 underline decoration-accent-400 decoration-2
+                 underline-offset-4 hover:decoration-accent-600 cursor-pointer'
     >
-      ← Back to all articles
+      <span aria-hidden='true'>←</span>
+      Back to all articles
     </button>
   )
 }

@@ -17,7 +17,10 @@ export async function login(formData: FormData) {
 
   if (error) {
     console.error('Login error:', error.message)
-    return { error: 'Invalid login credentials' }
+    // Redirect back to login with an error message in the search params.
+    // login/page.tsx already reads searchParams.message and displays it.
+    // This keeps the server action return type `void` (satisfying React 19 types).
+    redirect('/login?message=Invalid+login+credentials')
   }
 
   revalidatePath('/', 'layout')

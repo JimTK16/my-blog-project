@@ -12,21 +12,20 @@ export default function LikeButton({
 }) {
   const [likes, setLikes] = useState(initialLikes)
   const [isLiking, setIsLiking] = useState(false)
+  const [hasLiked, setHasLiked] = useState(false)
   const supabase = createClient()
 
   const handleLike = async () => {
-    if (isLiking) return
+    if (isLiking || hasLiked) return
     setIsLiking(true)
 
-    // Using a Supabase RPC or direct increment
-    // For simplicity here, we'll fetch and update
     const { data } = await supabase
       .from('posts')
       .select('likes_count')
       .eq('id', id)
       .single()
 
-    const newCount = (data?.likes_count || 0) + 1
+    const newCount = (data?.likes_count ?? 0) + 1
 
     const { error } = await supabase
       .from('posts')
@@ -35,6 +34,7 @@ export default function LikeButton({
 
     if (!error) {
       setLikes(newCount)
+      setHasLiked(true)
     }
     setIsLiking(false)
   }
@@ -42,9 +42,24 @@ export default function LikeButton({
   return (
     <button
       onClick={handleLike}
-      className='flex items-center gap-2 px-4 py-2 border border-soil-200 rounded-full hover:bg-danger-50 hover:border-danger-200 transition text-soil-600 hover:text-danger-500'
+      disabled={isLiking || hasLiked}
+      aria-label={
+        hasLiked
+          ? `You liked this post (${likes} likes)`
+          : `Like this post (${likes} likes)`
+      }
+      aria-pressed={hasLiked}
+      className={`flex min-h-[44px] items-center gap-2 rounded-full border px-4 py-3
+                  text-sm font-medium transition-all duration-200
+                  ${
+                    hasLiked
+                      ? 'border-danger-200 bg-danger-50 text-danger-500 cursor-default'
+                      : 'border-border text-text-muted hover:border-danger-200 hover:bg-danger-50 hover:text-danger-500 disabled:opacity-50'
+                  }`}
     >
-      <span>❤️</span>
+      <span aria-hidden='true' className={hasLiked ? 'scale-110' : ''}>
+        {hasLiked ? '❤️' : '🤍'}
+      </span>
       <span>{likes}</span>
     </button>
   )
