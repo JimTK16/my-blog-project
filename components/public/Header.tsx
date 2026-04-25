@@ -19,11 +19,11 @@ export default function Header() {
 
   return (
     <header className='fixed top-6 left-0 right-0 z-50 flex justify-center px-4'>
-      <nav className='flex items-center gap-6 px-6 py-3 bg-white/70 backdrop-blur-xl border border-gray-200/50 rounded-full shadow-sm hover:shadow-md transition-all duration-300 w-full max-w-2xl justify-between'>
+      <nav className='flex items-center gap-6 px-6 py-3 bg-surface-glass backdrop-blur-xl border border-soil-200/50 rounded-full shadow-sm hover:shadow-md transition-all duration-300 w-full max-w-2xl justify-between'>
         <Link
           href='/'
           onClick={handleHomeClick}
-          className='text-lg font-bold tracking-tight text-gray-900 hover:text-blue-600 transition-colors'
+          className='text-lg font-bold tracking-tight text-soil-900 hover:text-bloom-500 transition-colors'
         >
           Jimmy's Blog
         </Link>
@@ -32,14 +32,14 @@ export default function Header() {
           <Link
             href='/'
             onClick={handleHomeClick}
-            className='text-gray-600 hover:text-gray-900 transition-colors'
+            className='text-soil-600 hover:text-soil-900 transition-colors'
           >
             Home
           </Link>
 
           <Link
             href='/dashboard'
-            className='px-4 py-2 bg-gray-900 text-white rounded-full hover:bg-gray-800 transition-colors shadow-sm'
+            className='px-4 py-2 bg-soil-900 text-white rounded-full hover:bg-soil-800 transition-colors shadow-sm'
           >
             Dashboard
           </Link>

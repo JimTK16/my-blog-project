@@ -1,12 +1,17 @@
 import PostList from '@/components/blog/PostList'
 
-export default function HomePage() {
+// Next.js 16 uses Promises for searchParams
+export default async function HomePage({
+  searchParams
+}: {
+  searchParams: Promise<{ q?: string }>
+}) {
+  const { q } = await searchParams
+
   return (
     <>
-      {/* Since PostList already contains the <main> tag and the <h1>, 
-          we just render it here.
-      */}
-      <PostList />
+      {/* Pass the search query down to the component */}
+      <PostList query={q} />
     </>
   )
 }

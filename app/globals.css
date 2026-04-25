@@ -1,3 +1,202 @@
 @import 'tailwindcss';
 
 @plugin "@tailwindcss/typography";
+
+@theme {
+  --font-heading: var(--font-bricolage), sans-serif;
+  --font-body: var(--font-inter), sans-serif;
+
+  /* =============================================
+     BLOOM — Primary Accent (Violet-Indigo)
+     Replaces default Tailwind blue across the app
+     ============================================= */
+  --color-bloom-50: #f5f0ff;
+  --color-bloom-100: #ede4ff;
+  --color-bloom-200: #dcc9fc;
+  --color-bloom-300: #c4b5fd;
+  --color-bloom-400: #a78bfa;
+  --color-bloom-500: #8b5cf6;
+  --color-bloom-600: #7c3aed;
+  --color-bloom-700: #6d28d9;
+  --color-bloom-800: #5b21b6;
+  --color-bloom-900: #4c1d95;
+
+  /* =============================================
+     SOIL — Warm Organic Neutrals
+     Replaces Tailwind's cold gray scale.
+     Warmer undertones = cosier, more personal feel
+     ============================================= */
+  --color-soil-50: #fafaf9;
+  --color-soil-100: #f5f5f4;
+  --color-soil-200: #e7e5e4;
+  --color-soil-300: #d6d3d1;
+  --color-soil-400: #a8a29e;
+  --color-soil-500: #78716c;
+  --color-soil-600: #57534e;
+  --color-soil-700: #44403c;
+  --color-soil-800: #292524;
+  --color-soil-900: #1c1917;
+
+  /* =============================================
+     AURORA — Gradient palette
+     Multi-stop gradients inspired by Josh Comeau
+     ============================================= */
+  --color-aurora-start: #8b5cf6; /* bloom-500 */
+  --color-aurora-mid: #d946ef; /* fuchsia-500 */
+  --color-aurora-end: #22d3ee; /* cyan-400 */
+
+  /* =============================================
+     SEMANTIC COLORS — Normalised & consistent
+     One pattern per semantic role, everywhere
+     ============================================= */
+
+  /* Success */
+  --color-success-50: #ecfdf5;
+  --color-success-100: #d1fae5;
+  --color-success-200: #a7f3d0;
+  --color-success-500: #10b981;
+  --color-success-600: #059669;
+  --color-success-700: #047857;
+
+  /* Warning */
+  --color-warning-50: #fffbeb;
+  --color-warning-100: #fef3c7;
+  --color-warning-200: #fde68a;
+  --color-warning-500: #f59e0b;
+  --color-warning-600: #d97706;
+
+  /* Error / Danger */
+  --color-danger-50: #fff1f2;
+  --color-danger-100: #ffe4e6;
+  --color-danger-200: #fecdd3;
+  --color-danger-500: #f43f5e;
+  --color-danger-600: #e11d48;
+  --color-danger-700: #be123c;
+
+  /* Info */
+  --color-info-50: #f0f9ff;
+  --color-info-100: #e0f2fe;
+  --color-info-500: #0ea5e9;
+  --color-info-600: #0284c7;
+
+  /* Surface semantic tokens */
+  --color-surface-primary: #fafaf9;
+  --color-surface-raised: #ffffff;
+  --color-surface-glass: rgba(250, 250, 249, 0.72);
+}
+
+/* =============================================
+   GLOBAL BASE STYLES
+   ============================================= */
+html {
+  background-color: var(--color-soil-50);
+  color: var(--color-soil-900);
+}
+
+/* Smooth focus ring — bloom accent */
+*:focus-visible {
+  outline: 2px solid var(--color-bloom-500);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* =============================================
+   UTILITY — Aurora gradient text
+   ============================================= */
+@utility text-aurora {
+  background: linear-gradient(
+    135deg,
+    var(--color-aurora-start) 0%,
+    var(--color-aurora-mid) 50%,
+    var(--color-aurora-end) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* =============================================
+   UTILITY — Aurora gradient background
+   ============================================= */
+@utility bg-aurora {
+  background: linear-gradient(
+    135deg,
+    var(--color-aurora-start) 0%,
+    var(--color-aurora-mid) 50%,
+    var(--color-aurora-end) 100%
+  );
+}
+
+/* =============================================
+   UTILITY — Subtle glow for cards on hover
+   ============================================= */
+@utility glow-bloom {
+  box-shadow:
+    0 0 0 1px var(--color-bloom-200),
+    0 4px 24px -4px rgba(139, 92, 246, 0.12);
+}
+
+/* =============================================
+   PROSE / TYPOGRAPHY OVERRIDES
+   ============================================= */
+.prose {
+  --tw-prose-body: var(--color-soil-700);
+  --tw-prose-headings: var(--color-soil-900);
+  --tw-prose-links: var(--color-bloom-600);
+  --tw-prose-bold: var(--color-soil-900);
+  --tw-prose-counters: var(--color-soil-400);
+  --tw-prose-bullets: var(--color-soil-300);
+  --tw-prose-hr: var(--color-soil-200);
+  --tw-prose-quotes: var(--color-soil-900);
+  --tw-prose-quote-borders: var(--color-bloom-300);
+  --tw-prose-captions: var(--color-soil-500);
+  --tw-prose-code: var(--color-bloom-700);
+  --tw-prose-pre-code: var(--color-soil-200);
+  --tw-prose-pre-bg: var(--color-soil-800);
+  --tw-prose-th-borders: var(--color-soil-300);
+  --tw-prose-td-borders: var(--color-soil-200);
+}
+
+/* Inline code in prose */
+.prose code:not(pre code) {
+  background: var(--color-bloom-50);
+  color: var(--color-bloom-700);
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.375rem;
+  font-size: 0.875em;
+  font-weight: 500;
+}
+
+/* Blockquotes in prose */
+.prose blockquote {
+  border-left-color: var(--color-bloom-300);
+}
+
+/* =============================================
+   SCROLLBAR STYLING (Webkit)
+   ============================================= */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-soil-100);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-soil-300);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-soil-400);
+}
+
+/* =============================================
+   SELECTION
+   ============================================= */
+::selection {
+  background: var(--color-bloom-100);
+  color: var(--color-bloom-900);
+}

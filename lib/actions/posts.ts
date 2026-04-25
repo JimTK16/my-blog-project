@@ -49,12 +49,16 @@ export async function createPost(formData: FormData): Promise<ActionResponse> {
   redirect('/dashboard')
 }
 
-export async function getAllPosts(): Promise<Post[]> {
+export async function getAllPosts(onlyPublished = false): Promise<Post[]> {
   const supabase = await createClient()
 
-  const { data, error } = await supabase
-    .from('posts')
-    .select('*')
+  let query = supabase.from('posts').select('*')
+  
+  if(onlyPublished) {
+    query = query.eq("is_published", true)
+  }
+
+  const { data, error } = await query
     .order('created_at', { ascending: false })
 
   if (error) {
@@ -130,4 +134,24 @@ export async function updatePost(
   if (slug) revalidatePath(`/blog/${slug}`)
 
   redirect('/dashboard')
+}
+
+export async function searchPosts(query: string) {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase
+    .from('posts')
+    .select('*')
+    .eq('is_published', true) // Only search public posts
+    .textSearch('fts', query, {
+      type: 'websearch', // Allows users to use "quotes" or -minus signs
+      config: 'english'
+    })
+    .order('created_at', { ascending: false })
+
+  if (error) {
+    console.error('Search error:', error.message)
+    return []
+  }
+  return data
 }

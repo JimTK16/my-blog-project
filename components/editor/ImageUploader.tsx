@@ -48,7 +48,7 @@ export default function ImageUploader({
 
   return (
     <div className='space-y-4'>
-      <label className='block text-sm font-medium text-gray-700'>
+      <label className='block text-sm font-medium text-soil-700'>
         Card Image
       </label>
       {preview && (
@@ -63,9 +63,9 @@ export default function ImageUploader({
         accept='image/*'
         onChange={handleUpload}
         disabled={uploading}
-        className='block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100'
+        className='block w-full text-sm text-soil-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-bloom-50 file:text-bloom-700 hover:file:bg-bloom-100'
       />
-      {uploading && <p className='text-xs text-blue-500'>Uploading...</p>}
+      {uploading && <p className='text-xs text-bloom-500'>Uploading...</p>}
     </div>
   )
 }

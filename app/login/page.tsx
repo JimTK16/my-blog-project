@@ -1,10 +1,11 @@
 import { login } from '@/lib/actions/auth'
 
-export default function LoginPage({
+export default async function LoginPage({
   searchParams
 }: {
-  searchParams: { message: string }
+  searchParams: Promise<{ message: string }>
 }) {
+  const { message } = await searchParams
   return (
     <div className='flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2 mx-auto min-h-[80vh]'>
       <form
@@ -34,13 +35,13 @@ export default function LoginPage({
           required
         />
 
-        <button className='bg-blue-600 rounded-md px-4 py-2 text-white font-bold mb-2 hover:bg-blue-700 transition'>
+        <button className='bg-bloom-600 rounded-md px-4 py-2 text-white font-bold mb-2 hover:bg-bloom-700 transition'>
           Sign In
         </button>
 
-        {searchParams?.message && (
-          <p className='mt-4 p-4 bg-red-100 text-red-700 text-center rounded-md'>
-            {searchParams.message}
+        {message && (
+          <p className='mt-4 p-4 bg-danger-50 border border-danger-200 text-danger-600 text-center rounded-md text-sm font-medium'>
+            {message}
           </p>
         )}
       </form>

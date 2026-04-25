@@ -42,7 +42,7 @@ export default function LikeButton({
   return (
     <button
       onClick={handleLike}
-      className='flex items-center gap-2 px-4 py-2 border rounded-full hover:bg-red-50 transition'
+      className='flex items-center gap-2 px-4 py-2 border border-soil-200 rounded-full hover:bg-danger-50 hover:border-danger-200 transition text-soil-600 hover:text-danger-500'
     >
       <span>❤️</span>
       <span>{likes}</span>
