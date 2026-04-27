@@ -1,7 +1,6 @@
 import Footer from '@/components/public/Footer'
 import Header from '@/components/public/Header'
 import { ScrollToTop } from '@/components/ui/ScrollToTop'
-import { CustomCursor } from '@/components/ui/CustomCursor'
 
 export default function PublicLayout({
   children
@@ -32,7 +31,6 @@ export default function PublicLayout({
       <ScrollToTop />
 
       {/* Custom sage-green dot cursor — desktop/mouse only, touch devices skipped */}
-      <CustomCursor />
     </div>
   )
 }

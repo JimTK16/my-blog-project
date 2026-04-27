@@ -44,71 +44,10 @@ export default async function PostPage({
       {/* ── Reading progress bar — fixed top-0 z-50, Client Component ── */}
       <ReadingProgress />
 
-      {/* ── Sticky reading bar ──────────────────────────────────────────── */}
-      {/*
-       * sticky top-20  — sticks just below the floating pill nav (≈72px tall).
-       * backdrop-blur-md bg-background/80 — frosted glass effect.
-       * z-10 (below z-50 floating nav, above page content).
-       */}
-      <div
-        className='sticky top-20 z-10 border-b border-border/60
-                   bg-background/80 backdrop-blur-md'
-      >
-        <div
-          className='mx-auto flex max-w-3xl items-center justify-between
-                        gap-4 px-4 py-3 sm:px-6'
-        >
-          {/* Back link */}
-          <Link
-            href='/'
-            className='flex shrink-0 items-center gap-1.5 text-sm font-medium
-                       text-text-muted hover:text-text'
-          >
-            <span aria-hidden='true'>←</span>
-            <span>Blog</span>
-          </Link>
-
-          {/* Truncated post title — appears only on sm+ */}
-          <p className='hidden truncate text-sm font-medium text-text sm:block'>
-            {post.title}
-          </p>
-
-          {/* Right side: reading time + optional edit button */}
-          <div className='flex shrink-0 items-center gap-3'>
-            <span className='hidden font-handwritten text-sm text-text-subtle sm:block'>
-              {readingTime}
-            </span>
-
-            {/* Edit button — shown only to authenticated admin */}
-            {user && (
-              <Link
-                href={`/edit/${post.id}`}
-                aria-label='Edit this post'
-                title='Edit post'
-                className='flex h-11 w-11 items-center justify-center rounded-md
-                           border border-border text-text-subtle text-xs
-                           hover:border-primary-300 hover:bg-primary-50
-                           hover:text-primary-600'
-              >
-                ✏
-              </Link>
-            )}
-          </div>
-        </div>
-      </div>
-
       {/* ── Main article ────────────────────────────────────────────────── */}
-      <article className='mx-auto max-w-3xl px-4 py-12 sm:px-6 md:py-20'>
+      <article className='mx-auto max-w-5xl px-4 py-12 sm:px-6 md:py-20'>
         {/* ── Post header ─────────────────────────────────────────────── */}
         <header className='mb-12'>
-          {/* Handwritten category / style badge above title */}
-          <p
-            aria-label='Post category'
-            className='mb-3 font-handwritten text-xl text-accent-500'
-          >
-            ~ Software Engineering
-          </p>
-
           {/* Title */}
           <h1
             className='font-heading text-4xl font-bold tracking-tight text-text
@@ -134,30 +73,6 @@ export default async function PostPage({
             <span aria-label={`Reading time: ${readingTime}`}>
               {readingTime}
             </span>
-          </div>
-
-          {/* Author card + LikeButton */}
-          <div
-            className='flex flex-col gap-4 border-y border-border py-5
-                       sm:flex-row sm:items-center sm:justify-between'
-          >
-            {/* Author */}
-            <div className='flex items-center gap-3'>
-              <div
-                aria-hidden='true'
-                className='flex h-10 w-10 shrink-0 items-center justify-center
-                           rounded-full bg-primary-600 text-sm font-bold
-                           text-text-inverse shadow-card'
-              >
-                JV
-              </div>
-              <div>
-                <p className='text-sm font-bold text-text'>Jimmy Vu</p>
-                <p className='text-xs text-text-muted'>Software Engineer</p>
-              </div>
-            </div>
-
-            <LikeButton id={post.id} initialLikes={post.likes_count} />
           </div>
         </header>
 
@@ -195,6 +110,11 @@ export default async function PostPage({
           <MarkdownRenderer content={post.content} />
         </section>
 
+        {/* ── Like button — placed at the natural end of the article ────── */}
+        <div className='mt-16 flex justify-center'>
+          <LikeButton id={post.id} initialLikes={post.likes_count} />
+        </div>
+
         {/* ── Personal sign-off ────────────────────────────────────────── */}
         <div
           aria-label="Author's sign-off"
@@ -203,18 +123,6 @@ export default async function PostPage({
           <p className='font-handwritten text-3xl text-text-muted'>
             Thanks for reading!
           </p>
-          <p className='mt-2 font-handwritten text-2xl text-accent-500'>
-            — Jimmy Vu
-          </p>
-          {/* Logo monogram */}
-          <div
-            aria-hidden='true'
-            className='mx-auto mt-5 flex h-12 w-12 items-center justify-center
-                       rounded-xl bg-primary-600 text-base font-extrabold
-                       text-text-inverse shadow-card'
-          >
-            JV
-          </div>
         </div>
 
         {/* ── Footer nav ───────────────────────────────────────────────── */}

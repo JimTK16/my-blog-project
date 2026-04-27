@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import Script from 'next/script'
 
 import { Lora, Geist, Caveat } from 'next/font/google'
 
@@ -39,7 +40,11 @@ const caveat = Caveat({
 
 export const metadata: Metadata = {
   title: "Jimmy's Dev Blog",
-  description: 'Join me on my journey to become a software developer'
+  description: 'Join me on my journey to become a software developer',
+  icons: {
+    icon: '/favicon-photo-3.svg',
+    shortcut: '/favicon-photo-3.svg'
+  }
 }
 
 export default function RootLayout({

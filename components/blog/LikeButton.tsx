@@ -49,7 +49,7 @@ export default function LikeButton({
           : `Like this post (${likes} likes)`
       }
       aria-pressed={hasLiked}
-      className={`flex min-h-[44px] items-center gap-2 rounded-full border px-4 py-3
+      className={`flex min-h-11 items-center gap-2 rounded-full border px-4 py-3
                   text-sm font-medium transition-all duration-200
                   ${
                     hasLiked

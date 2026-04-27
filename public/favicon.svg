@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <style>
+    .bg { fill: #fdfcf8; }
+    .hill { stroke: #4f8643; }
+    .sun { fill: #d96340; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #1a1c16; }
+      .hill { stroke: #85b460; }
+      .sun { fill: #e88562; }
+    }
+  </style>
+  <rect width="64" height="64" rx="18" class="bg" />
+  
+  <circle cx="32" cy="22" r="9" class="sun" />
+  <path d="M 12 46 Q 32 32 52 46" fill="none" class="hill" stroke-width="8" stroke-linecap="round" />
+</svg>
