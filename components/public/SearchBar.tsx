@@ -1,10 +1,9 @@
 'use client'
 
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 
-/* Client Component — needs useState + useRouter for interactive search */
-export default function SearchBar() {
+function SearchBarContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [query, setQuery] = useState(searchParams.get('q') || '')
@@ -47,15 +46,6 @@ export default function SearchBar() {
                      focus:ring-2 focus:ring-primary-500/20'
         />
 
-        {/*
-         * top-1 centres the button within the py-4 input (52 px tall).
-         * py-3 + line-height = 44 px WCAG touch target.
-         */}
-        {/*
-         * top-1/2 -translate-y-1/2 — CSS transform centering within the
-         * relatively-positioned wrapper; keeps the button pixel-perfect
-         * regardless of input height and font size.
-         */}
         <button
           type='submit'
           className='absolute right-3 top-1/2 -translate-y-1/2 flex min-h-[44px]
@@ -66,5 +56,33 @@ export default function SearchBar() {
         </button>
       </div>
     </form>
+  )
+}
+
+export default function SearchBar() {
+  return (
+    <Suspense
+      fallback={
+        <div className='mx-auto max-w-2xl'>
+          <div className='relative'>
+            <div
+              className='w-full rounded-xl border border-border bg-surface-tinted px-6 py-4
+                         text-text-subtle'
+            >
+              Search articles…
+            </div>
+            <div
+              className='absolute right-3 top-1/2 -translate-y-1/2 flex min-h-[44px]
+                         items-center rounded-lg bg-primary-600/50 px-4 py-3 text-sm
+                         font-medium text-text-inverse'
+            >
+              Search
+            </div>
+          </div>
+        </div>
+      }
+    >
+      <SearchBarContent />
+    </Suspense>
   )
 }

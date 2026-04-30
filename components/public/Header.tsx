@@ -3,8 +3,9 @@
 import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { ThemeToggle } from '@/components/public/ThemeToggle'
+import { Suspense } from 'react'
 
-export default function Header() {
+function HeaderContent() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
@@ -21,47 +22,75 @@ export default function Header() {
   }
 
   return (
-    <header className='fixed  left-0 right-0 z-50 flex justify-center px-4 bg-background'>
-      <nav
-        className='flex w-full max-w-5xl items-center justify-between gap-4
+    <nav
+      className='flex w-full max-w-5xl items-center justify-between gap-4
                    border-none  px-6 py-3 '
-        aria-label='Main navigation'
+      aria-label='Main navigation'
+    >
+      {/* Brand wordmark */}
+      <Link
+        href='/'
+        onClick={handleHomeClick}
+        className='shrink-0 text-lg font-bold tracking-tight text-text
+                     hover:text-primary-600 transition-colors'
       >
-        {/* Brand wordmark */}
+        Jimmy's Blog
+      </Link>
+
+      {/* Nav links + theme toggle */}
+      <div className='flex items-center gap-1 text-sm font-medium sm:gap-2'>
         <Link
           href='/'
           onClick={handleHomeClick}
-          className='shrink-0 text-lg font-bold tracking-tight text-text
-                     hover:text-primary-600 transition-colors'
+          className='flex min-h-[44px] items-center px-3 text-text-muted
+                       hover:text-text transition-colors rounded-full
+                       hover:bg-surface-tinted'
         >
-          Jimmy's Blog
+          Home
         </Link>
 
-        {/* Nav links + theme toggle */}
-        <div className='flex items-center gap-1 text-sm font-medium sm:gap-2'>
-          <Link
-            href='/'
-            onClick={handleHomeClick}
-            className='flex min-h-[44px] items-center px-3 text-text-muted
+        <Link
+          href='/about'
+          className='flex min-h-[44px] items-center px-3 text-text-muted
                        hover:text-text transition-colors rounded-full
                        hover:bg-surface-tinted'
-          >
-            Home
-          </Link>
+        >
+          About
+        </Link>
 
-          <Link
-            href='/about'
-            className='flex min-h-[44px] items-center px-3 text-text-muted
-                       hover:text-text transition-colors rounded-full
-                       hover:bg-surface-tinted'
-          >
-            About
-          </Link>
+        {/* Light / dark toggle */}
+        <ThemeToggle />
+      </div>
+    </nav>
+  )
+}
 
-          {/* Light / dark toggle */}
-          <ThemeToggle />
-        </div>
-      </nav>
+export default function Header() {
+  return (
+    <header className='fixed  left-0 right-0 z-50 flex justify-center px-4 bg-background'>
+      <Suspense
+        fallback={
+          <nav
+            className='flex w-full max-w-5xl items-center justify-between gap-4
+                       border-none  px-6 py-3 '
+            aria-label='Main navigation'
+          >
+            <div className='shrink-0 text-lg font-bold tracking-tight text-text'>
+              Jimmy's Blog
+            </div>
+            <div className='flex items-center gap-1 text-sm font-medium sm:gap-2'>
+              <div className='flex min-h-[44px] items-center px-3 text-text-muted'>
+                Home
+              </div>
+              <div className='flex min-h-[44px] items-center px-3 text-text-muted'>
+                About
+              </div>
+            </div>
+          </nav>
+        }
+      >
+        <HeaderContent />
+      </Suspense>
     </header>
   )
 }
