@@ -82,7 +82,7 @@ export default async function PostPage({
             <img
               src={post.card_image_url}
               alt={post.title}
-              className='aspect-video w-full rounded-lg border border-border/50
+              className='aspect-4/3 w-full rounded-lg border border-border/50
                          object-cover shadow-md'
             />
           </figure>
